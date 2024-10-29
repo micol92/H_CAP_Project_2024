@@ -10,7 +10,8 @@ entity Incidents : cuid,managed {
   customerEmail: String(100);
   attachments: Composition of many Attachments;
   conversations: Composition of many Conversations on conversations.incident = $self;
-  customer: Association to Customers;
+  customer_ID : UUID;
+  customer: Association to Customers on customer.ID = customer_ID;
 }
 
 entity Conversations : cuid {
@@ -29,4 +30,12 @@ entity Customers : cuid {
   email: String(100);
   creditCardNumber: String(20);
   incidents: Association to many Incidents on incidents.customer = $self;
+}
+
+using {  API_BUSINESS_PARTNER_0001 as bupa } from '../srv/external/API_BUSINESS_PARTNER_0001';
+
+    entity Suppliers as projection on bupa.A_BusinessPartner {
+        key BusinessPartner as ID,
+        BusinessPartnerFullName as fullName,
+        BusinessPartnerIsBlocked as isBlocked,
 }

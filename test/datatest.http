@@ -1,0 +1,56 @@
+@server = http://localhost:4004
+//@me = Authorization: Basic {{$processEnv USER}}:
+
+@me = Authorization: Basic ALICE:
+@admin02 = Authorization: Basic admin02:
+
+### ------------------------------------------------------------------------
+# Browse Books as any user
+GET {{server}}/service/demouserzzapp/Qrybasedapi
+Authorization: Basic tom:
+  # &$select=title,stock
+  #&$expand=genre,author
+  # &sap-language=de
+
+
+### ------------------------------------------------------------------------
+# Create incident-draft
+POST {{server}}/service/demouserzzapp/Incidents
+Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic alice:
+
+{
+      "title": "Data Backup Failure-zzzz111",
+      "urgency": "High",
+      "status": "New",
+      "customer_ID": "a1a27a5b-a9f5-4ae4-8a8f-be40bbf9a318"
+}
+
+### Activate draft incident data using `.../<servicename>.draftActivate`
+POST {{server}}/service/demouserzzapp/Incidents(ID=9d7f07c9-07a7-4905-9f73-7642f913b07b,IsActiveEntity=false)/demouserzzSrv.draftActivate
+Content-Type: application/json
+Authorization: Basic alice:
+
+### Get active order
+GET {{server}}/service/demouserzzapp/Incidents(ID=9d7f07c9-07a7-4905-9f73-7642f913b07b,IsActiveEntity=false)
+Authorization: Basic alice:
+
+
+### Get active order
+GET {{server}}/service/demouserzzapp/Incidents(ID=33383242-5341-42d1-a62d-005982a66b41,IsActiveEntity=false)
+Authorization: Basic alice:
+
+
+
+### ------------------------------------------------------------------------
+# Create incident-draft
+POST {{server}}/service/demouserzzapp/saveIncidents
+Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic alice:
+
+{
+      "title": "Data Backup Failure-zzzz1111412",
+      "urgency": "High",
+      "status": "New",
+      "customer_ID": "a1a27a5b-a9f5-4ae4-8a8f-be40bbf9a318"
+}
